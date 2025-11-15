@@ -185,21 +185,6 @@ parking-reserve/
 └── .env                 # Environment variables (not committed)
 ```
 
-## 🚢 Deployment
-
-For deployment guides, see:
-- [Vercel](https://create.t3.gg/en/deployment/vercel)
-- [Netlify](https://create.t3.gg/en/deployment/netlify)
-- [Docker](https://create.t3.gg/en/deployment/docker)
-
-## 📚 Learn More
-
-- [T3 Stack Documentation](https://create.t3.gg/)
-- [Next.js Documentation](https://nextjs.org/docs)
-- [NextAuth.js Documentation](https://next-auth.js.org)
-- [Drizzle ORM Documentation](https://orm.drizzle.team)
-- [tRPC Documentation](https://trpc.io)
-
 ## 📝 License
 
 This project is private and proprietary.
