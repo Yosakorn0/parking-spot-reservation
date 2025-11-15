@@ -37,27 +37,39 @@ declare module "next-auth" {
  *
  * @see https://next-auth.js.org/configuration/options
  */
+// Ensure at least one provider is configured
+const providers = [];
+if (env.AUTH_GOOGLE_ID && env.AUTH_GOOGLE_SECRET) {
+  // Debug: Log first and last few characters (don't log full secrets)
+  console.log("🔐 Google OAuth configured");
+  console.log("   Client ID:", env.AUTH_GOOGLE_ID.substring(0, 10) + "..." + env.AUTH_GOOGLE_ID.slice(-5));
+  console.log("   Client Secret:", env.AUTH_GOOGLE_SECRET.substring(0, 5) + "..." + env.AUTH_GOOGLE_SECRET.slice(-3));
+  
+  providers.push(
+    GoogleProvider({
+      clientId: env.AUTH_GOOGLE_ID,
+      clientSecret: env.AUTH_GOOGLE_SECRET,
+    })
+  );
+}
+
+if (providers.length === 0) {
+  console.warn(
+    "⚠️ Warning: No authentication providers configured. Please set AUTH_GOOGLE_ID and AUTH_GOOGLE_SECRET in your .env file."
+  );
+}
+
+// NextAuth requires at least one provider
+if (providers.length === 0) {
+  throw new Error(
+    "NextAuth configuration error: No authentication providers configured. " +
+    "Please set AUTH_GOOGLE_ID and AUTH_GOOGLE_SECRET in your .env file."
+  );
+}
+
 export const authConfig = {
   secret: env.AUTH_SECRET ?? "development-secret-change-in-production",
-  providers: [
-    ...(env.AUTH_GOOGLE_ID && env.AUTH_GOOGLE_SECRET
-      ? [
-          GoogleProvider({
-            clientId: env.AUTH_GOOGLE_ID,
-            clientSecret: env.AUTH_GOOGLE_SECRET,
-          }),
-        ]
-      : []),
-    /**
-     * ...add more providers here.
-     *
-     * Most other providers require a bit more work than the Discord provider. For example, the
-     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
-     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers/github
-     */
-  ],
+  providers,
   adapter: DrizzleAdapter(db, {
     usersTable: users,
     accountsTable: accounts,
@@ -76,10 +88,12 @@ export const authConfig = {
       },
     }),
     async signIn({ account, profile }) {
-      if (account?.provider === "google") {
-        return profile!.email!.endsWith("@kmitl.ac.th");
-      }
-      return true; // Do different verification for other providers that don't have `email_verified`
+      // Allow all Google accounts to sign in
+      // For production, you may want to restrict to specific domains:
+      // if (account?.provider === "google") {
+      //   return profile!.email!.endsWith("@kmitl.ac.th");
+      // }
+      return true;
     },
   },
 } satisfies NextAuthConfig;
