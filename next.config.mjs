@@ -12,6 +12,7 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import("next").NextConfig} */
 const config = {
+  output: 'standalone', // Enable standalone output for Docker
   images: {
     domains: ["lh3.googleusercontent.com"],
   },
