@@ -2,6 +2,12 @@
 
 A modern, full-stack **parking reservation system** and **booking platform** built with Next.js, featuring secure **Google OAuth authentication**. This application enables users to reserve parking spots with an intuitive interface, real-time availability tracking, and seamless authentication via Google Sign-In.
 
+## 📖 Project Information
+
+This project is developed as a **capstone project** for **King Mongkut's Institute of Technology Ladkrabang (KMITL)**.
+
+**Author & Implementer**: Yosakorn Sirisoot
+
 ## 🚗 Features
 
 - **Parking Spot Reservation**: Easy-to-use booking system for parking spots with date and time selection
@@ -12,19 +18,6 @@ A modern, full-stack **parking reservation system** and **booking platform** bui
 - **PostgreSQL Database**: Robust data storage with Drizzle ORM
 - **Docker Support**: Full containerization for easy deployment
 - **Responsive Design**: Modern UI built with Tailwind CSS and shadcn/ui
-
-## 🔍 Keywords & SEO
-
-This project is optimized for searches related to:
-- **Parking reservation system**
-- **Parking spot booking**
-- **Booking platform with Google authentication**
-- **Parking management system**
-- **OAuth authentication booking**
-- **Next.js parking reservation**
-- **Google Sign-In booking system**
-- **Parking booking app**
-- **Reservation system with authentication**
 
 ## 🚀 Quick Start
 
@@ -182,23 +175,15 @@ The application provides both tRPC and RESTful API endpoints:
 
 All endpoints require Google OAuth authentication.
 
-## 🌐 SEO Optimization
-
-This project is designed with SEO best practices:
-- Semantic HTML structure
-- Server-side rendering (SSR) with Next.js
-- Optimized meta tags and descriptions
-- Fast page load times
-- Mobile-responsive design
-- Accessible UI components
-
 ## 📝 License
 
-This project is open source and available for educational and commercial use.
+This project is open source and available for educational and commercial use under the **MIT License with Attribution**.
 
-## 🤝 Contributing
+## 👤 Author
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+**Yosakorn Sirisoot**
+
+This project is part of the capstone project requirements for King Mongkut's Institute of Technology Ladkrabang (KMITL).
 
 ---
 
