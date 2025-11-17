@@ -1,8 +1,34 @@
-# Parking Spot Reservation
+# Parking Spot Reservation System | Booking Platform with Google Authentication
 
-A Next.js application for managing parking spot reservations with Google OAuth authentication.
+A modern, full-stack **parking reservation system** and **booking platform** built with Next.js, featuring secure **Google OAuth authentication**. This application enables users to reserve parking spots with an intuitive interface, real-time availability tracking, and seamless authentication via Google Sign-In.
 
-## Quick Start
+## 🚗 Features
+
+- **Parking Spot Reservation**: Easy-to-use booking system for parking spots with date and time selection
+- **Google OAuth Authentication**: Secure login and user management using Google Sign-In
+- **Real-time Availability**: Check parking spot availability in real-time
+- **User Dashboard**: Personal reservation management dashboard
+- **RESTful API**: Complete REST API for reservation management
+- **PostgreSQL Database**: Robust data storage with Drizzle ORM
+- **Docker Support**: Full containerization for easy deployment
+- **Responsive Design**: Modern UI built with Tailwind CSS and shadcn/ui
+
+## 🔍 Keywords & SEO
+
+This project is optimized for searches related to:
+- **Parking reservation system**
+- **Parking spot booking**
+- **Booking platform with Google authentication**
+- **Parking management system**
+- **OAuth authentication booking**
+- **Next.js parking reservation**
+- **Google Sign-In booking system**
+- **Parking booking app**
+- **Reservation system with authentication**
+
+## 🚀 Quick Start
+
+Get your parking reservation system up and running in minutes with Google OAuth authentication.
 
 ### Database Setup (Docker)
 
@@ -86,7 +112,28 @@ NEXTAUTH_URL=http://localhost:3000
 - `cd db && docker-compose up` - Start database services
 - `cd deploy && docker-compose up` - Start app in Docker
 
-## Docker Commands
+## 📋 Use Cases
+
+This parking reservation system is perfect for:
+- **Office Buildings**: Manage employee and visitor parking
+- **Event Venues**: Handle parking for events and conferences
+- **Residential Complexes**: Organize parking for residents
+- **Commercial Properties**: Manage tenant and customer parking
+- **Universities**: Campus parking management
+- **Hospitals**: Patient and visitor parking coordination
+
+## 🔐 Google OAuth Setup
+
+This application uses **Google OAuth 2.0** for secure authentication. Users can sign in with their Google accounts, eliminating the need for separate registration and password management.
+
+### Benefits of Google Authentication:
+- ✅ No password management required
+- ✅ Enhanced security with Google's authentication
+- ✅ Faster user onboarding
+- ✅ Reduced authentication friction
+- ✅ Trusted login experience
+
+## 🐳 Docker Commands
 
 ### Database Services
 ```bash
@@ -111,3 +158,48 @@ cd deploy && docker-compose up -d
 # Stop application
 cd deploy && docker-compose down
 ```
+
+## 🛠️ Technology Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Authentication**: NextAuth.js with Google OAuth Provider
+- **Database**: PostgreSQL 16 with Drizzle ORM
+- **Styling**: Tailwind CSS with shadcn/ui components
+- **API**: tRPC for type-safe APIs + REST endpoints
+- **Containerization**: Docker & Docker Compose
+- **Language**: TypeScript
+
+## 📚 API Documentation
+
+The application provides both tRPC and RESTful API endpoints:
+
+### REST API Endpoints
+- `GET /api/reservations` - List all reservations
+- `POST /api/reservations` - Create a new reservation
+- `GET /api/reservations/[id]` - Get a specific reservation
+- `PUT /api/reservations/[id]` - Update a reservation
+- `DELETE /api/reservations/[id]` - Delete a reservation
+
+All endpoints require Google OAuth authentication.
+
+## 🌐 SEO Optimization
+
+This project is designed with SEO best practices:
+- Semantic HTML structure
+- Server-side rendering (SSR) with Next.js
+- Optimized meta tags and descriptions
+- Fast page load times
+- Mobile-responsive design
+- Accessible UI components
+
+## 📝 License
+
+This project is open source and available for educational and commercial use.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+---
+
+**Keywords**: parking reservation, parking booking, booking system, Google authentication, OAuth booking, parking management, Next.js booking, reservation system, Google Sign-In, parking app
