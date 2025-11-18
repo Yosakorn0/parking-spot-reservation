@@ -1,49 +1,44 @@
-# Stage 1: Dependencies
+# Build argument to determine target stage
+ARG TARGET=production
+
+# Stage 1: Dependencies (shared)
 FROM node:20-alpine AS deps
 WORKDIR /app
-
-# Copy package files
 COPY package.json package-lock.json* ./
 RUN npm ci
 
-# Stage 2: Builder
+# Stage 2: Development (simple, for hot reload with volumes)
+FROM node:20-alpine AS development
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+EXPOSE 3000
+CMD ["npm", "run", "dev"]
+
+# Stage 3: Builder (production only)
 FROM node:20-alpine AS builder
 WORKDIR /app
-
-# Copy dependencies from deps stage
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-
-# Set environment to production for build
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV SKIP_ENV_VALIDATION=true
-
-# Build the application
 RUN npm run build
 
-# Stage 3: Runner
-FROM node:20-alpine AS runner
+# Stage 4: Production Runner
+FROM node:20-alpine AS production
 WORKDIR /app
-
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-
-# Create a non-root user
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-# Copy necessary files from builder
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
 USER nextjs
-
 EXPOSE 3000
-
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-
 CMD ["node", "server.js"]
 
+# Select target stage
+FROM ${TARGET} AS final

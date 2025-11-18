@@ -3,10 +3,11 @@ services:
     build:
       context: ..
       dockerfile: deploy/Dockerfile
+      target: production
     container_name: parking-spot-reservation-app
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       - NODE_ENV=production
       - DATABASE_URL=postgresql://postgres:mypassword123@postgres:5432/parking-spot-reservation
@@ -18,6 +19,34 @@ services:
         condition: service_healthy
     networks:
       - parking-network
+    profiles:
+      - production
+
+  app-dev:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+      target: development
+    container_name: parking-spot-reservation-app-dev
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:mypassword123@postgres:5432/parking-spot-reservation
+      - NEXTAUTH_URL=http://localhost:3000
+    env_file:
+      - ../.env
+    volumes:
+      - ..:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - parking-network
+    command: npm run dev
 
   postgres:
     image: postgres:16
@@ -45,4 +74,3 @@ volumes:
 networks:
   parking-network:
     driver: bridge
-
