@@ -14,15 +14,17 @@ export async function GET(req: Request) {
     const session = await auth();
 
     if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { searchParams } = new URL(req.url);
     const date = searchParams.get("date");
     const spotId = searchParams.get("spotId");
+
+    // let query = db
+    //   .select()
+    //   .from(reservations)
+    //   .where(eq(reservations.userId, session.user.id));
 
     let query = db
       .select()
@@ -32,14 +34,20 @@ export async function GET(req: Request) {
     // Filter by date if provided
     if (date) {
       query = query.where(
-        and(eq(reservations.userId, session.user.id), eq(reservations.date, new Date(date)))
+        and(
+          eq(reservations.userId, session.user.id),
+          eq(reservations.date, new Date(date)),
+        ),
       );
     }
 
     // Filter by spotId if provided
     if (spotId) {
       query = query.where(
-        and(eq(reservations.userId, session.user.id), eq(reservations.spotId, spotId))
+        and(
+          eq(reservations.userId, session.user.id),
+          eq(reservations.spotId, spotId),
+        ),
       );
     }
 
@@ -54,7 +62,7 @@ export async function GET(req: Request) {
     console.error("Error fetching reservations:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -68,10 +76,7 @@ export async function POST(req: Request) {
     const session = await auth();
 
     if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await req.json();
@@ -80,18 +85,18 @@ export async function POST(req: Request) {
     // Validation
     if (!phoneNumber || !licensePlate || !date || !time || !spotId) {
       return NextResponse.json(
-        { error: "Missing required fields: phoneNumber, licensePlate, date, time, spotId" },
-        { status: 400 }
+        {
+          error:
+            "Missing required fields: phoneNumber, licensePlate, date, time, spotId",
+        },
+        { status: 400 },
       );
     }
 
     // Find the time slot
     const slot = timeSlots.find((s) => s.value === time);
     if (!slot) {
-      return NextResponse.json(
-        { error: "Invalid time slot" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Invalid time slot" }, { status: 400 });
     }
 
     // Create reservation
@@ -114,14 +119,13 @@ export async function POST(req: Request) {
         message: "Reservation created successfully",
         data: newReservation[0],
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error("Error creating reservation:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
-

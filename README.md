@@ -44,17 +44,19 @@ npm install
 npm run dev
 ```
 
-#### Option 2: Docker Development
+#### Option 2: Docker Development (Default)
 ```bash
 cd deploy
-docker-compose -f docker-compose.dev.yml up
+docker-compose up --build
 ```
+This starts the app in development mode with hot reload on port 3000.
 
 #### Option 3: Docker Production
 ```bash
 cd deploy
-docker-compose up -d
+docker-compose --profile production up -d --build
 ```
+This starts the app in production mode on port 3001.
 
 ## Project Structure
 
@@ -63,10 +65,8 @@ docker-compose up -d
 ├── db/                    # Database services (PostgreSQL, pgAdmin)
 │   └── docker-compose.yml
 ├── deploy/                # Application deployment
-│   ├── Dockerfile         # Production Dockerfile
-│   ├── Dockerfile.dev     # Development Dockerfile
-│   ├── docker-compose.yml # Production compose
-│   └── docker-compose.dev.yml # Development compose
+│   ├── Dockerfile         # Multi-stage Dockerfile (dev & prod)
+│   └── docker-compose.yml # Single compose file (dev default, prod with profile)
 ├── src/                   # Application source code
 └── docker-compose.yml     # Root compose (database only)
 ```
@@ -103,7 +103,8 @@ NEXTAUTH_URL=http://localhost:3000
 - `npm run db:push` - Push database schema
 - `npm run db:studio` - Open Drizzle Studio
 - `cd db && docker-compose up` - Start database services
-- `cd deploy && docker-compose up` - Start app in Docker
+- `cd deploy && docker-compose up` - Start app in Docker (dev mode, default)
+- `cd deploy && docker-compose --profile production up -d` - Start app in Docker (prod mode)
 
 ## 📋 Use Cases
 
@@ -142,11 +143,11 @@ cd db && docker-compose logs -f
 
 ### Application Services
 ```bash
-# Development mode
-cd deploy && docker-compose -f docker-compose.dev.yml up
+# Development mode (default, with hot reload on port 3000)
+cd deploy && docker-compose up --build
 
-# Production mode
-cd deploy && docker-compose up -d
+# Production mode (port 3001)
+cd deploy && docker-compose --profile production up -d --build
 
 # Stop application
 cd deploy && docker-compose down
